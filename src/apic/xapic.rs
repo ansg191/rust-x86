@@ -143,7 +143,7 @@ pub const XAPIC_TIMER_DIV_CONF: u32 = 0x3E0;
 
 #[derive(Copy, Clone)]
 #[allow(dead_code, non_camel_case_types)]
-enum ApicRegister {
+pub enum ApicRegister {
     XAPIC_ID = XAPIC_ID as isize,
     XAPIC_VERSION = XAPIC_VERSION as isize,
     XAPIC_TPR = XAPIC_TPR as isize,
@@ -301,14 +301,14 @@ impl XAPIC {
     }
 
     /// Read a register from the MMIO region.
-    fn read(&self, offset: ApicRegister) -> u32 {
+    pub fn read(&self, offset: ApicRegister) -> u32 {
         assert!(offset as usize % 4 == 0);
         let index = offset as usize / 4;
         unsafe { core::ptr::read_volatile(&self.mmio_region[index]) }
     }
 
     /// write a register in the MMIO region.
-    fn write(&mut self, offset: ApicRegister, val: u32) {
+    pub fn write(&mut self, offset: ApicRegister, val: u32) {
         assert!(offset as usize % 4 == 0);
         let index = offset as usize / 4;
         unsafe { core::ptr::write_volatile(&mut self.mmio_region[index], val) }
